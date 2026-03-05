@@ -18,10 +18,11 @@ jobs:
       - name: Update file
         run: echo "$(date)" >> activity.txt
 
-      - name: Commit
+      - name: Commit and push
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
           git add activity.txt
           git commit -m "daily commit" || exit 0
+          git pull --rebase
           git push
