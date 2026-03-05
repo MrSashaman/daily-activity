@@ -1,0 +1,25 @@
+name: Daily Commit
+
+on:
+  schedule:
+    - cron: "0 10 * * *"   # каждый день
+  workflow_dispatch:
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update activity file
+        run: |
+          echo "$(date)" >> activity.txt
+
+      - name: Commit and push
+        run: |
+          git config --global user.name "auto-bot"
+          git config --global user.email "auto@bot.com"
+          git add activity.txt
+          git commit -m "daily commit" || exit 0
+          git push
